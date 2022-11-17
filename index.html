@@ -54,12 +54,11 @@
 
 
 <script>
+    const hs = document.querySelectorAll("a")
     const changeTab =  () => {
-        const hs = document.querySelectorAll("a")
         hs.forEach((h)=> {
             h.className=""
         })
-        console.log("window.screenY", window.scrollY)
         if(window.scrollY >= 612) {
 
             hs[4].className="selected"
@@ -70,17 +69,23 @@
 
             hs[0].className="selected"
         }
-        console.log("change!")
     }
 
 
+    let id = -1
     const as = document.querySelectorAll("a")
     as.forEach((a)=> {
         a.addEventListener("click", (e)=> {
+            window.removeEventListener("scroll", changeTab)
+            console.log("remove")
             hs.forEach((h)=> {
                 h.className=""
             })
             e.target.className="selected"
+            clearTimeout(id)
+            id = setTimeout(()=> {
+                window.addEventListener("scroll", changeTab)
+            }, 250)
         })
     })
 
